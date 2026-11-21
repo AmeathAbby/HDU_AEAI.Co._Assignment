@@ -46,9 +46,11 @@ project1/
 │       ├── worlds/color_test.world             颜色检测测试场景
 │       ├── scripts/color_detector.py           检测节点
 │       ├── scripts/camera_stream_guard.py      点云保活
-│       └──  scripts/start_px4.sh                启动已编译的 PX4 SITL
-└── vendor/PX4-Autopilot/                       PX4 v1.14.4
+│       └── scripts/start_px4.sh                启动已编译的 PX4 SITL
+└── vendor/PX4-Autopilot/                       PX4 v1.14.4（不随仓库提交，需自行克隆）
 ```
+
+> 仓库不包含 `vendor/PX4-Autopilot`、`build/`、`devel/`。clone 后必须按“编译”一节的步骤克隆 PX4 并重新编译，不能直接运行。
 
 主要话题、服务与参数
 
@@ -63,10 +65,62 @@ project1/
 | `/camera/depth/image_raw` | `sensor_msgs/Image` | 深度图 |
 | `/camera/depth/points` | `sensor_msgs/PointCloud2` | 深度点云 |
 | `/vision/pink_detected` | `std_msgs/Bool` | 颜色检测结果 |
+| `/vision/target_x` | `std_msgs/Float32` | 最大粉色目标的归一化水平偏移，0 为画面中心 |
 | `/vision/debug_image` | `sensor_msgs/Image` | 带框调试图（有订阅者时发布） |
 | `/ctrl/aircraft_markers` | `visualization_msgs/MarkerArray` | RViz 四旋翼模型 |
 | `/ctrl/flight_path` | `nav_msgs/Path` | RViz 飞行轨迹 |
 | `/clock` | `rosgraph_msgs/Clock` | Gazebo 仿真时间 |
+
+编译：
+
+仓库不提交 `build/`、`devel/`、`install/`。这些目录里的 `CMakeCache.txt`、`devel/setup.*` 写死了当前机器的绝对路径（例如 `/home/ameath/桌面/Project/project1`）。**换机器或换目录 clone 后不能直接 `source devel/setup.bash`，必须重新 `catkin_make`
+
+
+编译 Catkin 工作空间
+
+```bash
+cd ~/project1
+source /opt/ros/noetic/setup.bash
+catkin_make -DPYTHON_EXECUTABLE=/usr/bin/python3
+source devel/setup.bash
+```
+
+验证包能被找到：
+
+```bash
+rospack find ctrl
+rospack find drone_vision
+```
+
+编译 PX4 与 Gazebo Classic 插件
+
+**本仓库不包含 `vendor/PX4-Autopilot`**（PX4 源码约 1.8 GB，单独下载）。克隆项目后必须先把它放到 `vendor/PX4-Autopilot`：
+
+```bash
+cd ~/project1
+mkdir -p vendor
+git clone -b v1.14.4 --recursive \
+  https://github.com/PX4/PX4-Autopilot.git vendor/PX4-Autopilot
+source /opt/ros/noetic/setup.bash
+cd ~/project1/vendor/PX4-Autopilot
+git config --global --add safe.directory '*'   # Docker/root 构建、仓库属于宿主用户时需要
+DONT_RUN=1 make px4_sitl gazebo-classic
+```
+
+如果 PX4 放在其他位置，启动前设置：
+
+```bash
+export PX4_SITL_ROOT=/path/to/PX4-Autopilot
+```
+回到工作空间加载环境
+
+```bash
+cd ~/project1
+source devel/setup.bash
+```
+之后才能执行下面的 `roslaunch`。
+
+
 
 快速开始
 
