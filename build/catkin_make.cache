@@ -1,0 +1,2 @@
+ctrl:drone_vision
+-DPYTHON_EXECUTABLE=/usr/bin/python3 -DCATKIN_DEVEL_PREFIX=/home/ameath/桌面/Project/project1/devel -DCMAKE_INSTALL_PREFIX=/home/ameath/桌面/Project/project1/install -G Unix Makefiles

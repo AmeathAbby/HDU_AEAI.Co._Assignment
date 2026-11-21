@@ -1,0 +1,8 @@
+prefix=/home/ameath/桌面/Project/project1/devel
+
+Name: drone_vision
+Description: Description of drone_vision
+Version: 0.1.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: rospy std_msgs sensor_msgs cv_bridge
