@@ -73,7 +73,7 @@ project1/
 
 编译：
 
-仓库不提交 `build/`、`devel/`、`install/`。这些目录里的 `CMakeCache.txt`、`devel/setup.*` 写死了当前机器的绝对路径（例如 `/home/ameath/桌面/Project/project1`）。**换机器或换目录 clone 后不能直接 `source devel/setup.bash`，必须重新 `catkin_make`
+仓库不提交 `build/`、`devel/`、`install/`。这些目录里的 `CMakeCache.txt`、`devel/setup.*` 写死了当前机器的绝对路径（例如 `/home/ameath/桌面/Project/project1`）。**换机器或换目录 clone 后不能直接 `source devel/setup.bash`，必须重新 `catkin_make`。**
 
 
 编译 Catkin 工作空间

@@ -1,8 +1,0 @@
-prefix=/home/ameath/桌面/Project/project1/install
-
-Name: ctrl
-Description: Description of ctrl
-Version: 0.0.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: roscpp rospy std_msgs mavros_msgs geometry_msgs nav_msgs tf

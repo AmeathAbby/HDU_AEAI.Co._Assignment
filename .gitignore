@@ -1,0 +1,6 @@
+# catkin build artifacts
+build/
+devel/
+install/
+# vendored PX4 (clone locally, see README)
+vendor/PX4-Autopilot/
