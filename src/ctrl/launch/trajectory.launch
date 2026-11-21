@@ -1,0 +1,14 @@
+<launch>
+  <!-- Deliberate opt-in after SITL connection/failsafe checks. Never respawn. -->
+  <arg name="enable_control" default="false"/>
+  <arg name="mission" default="basic"/>
+  <arg name="square_side" default="1.40"/>
+  <node pkg="ctrl" type="trajectory_follower.py" name="trajectory_follower"
+        output="screen" respawn="false">
+    <env name="PYTHONUNBUFFERED" value="1"/>
+    <rosparam command="load" file="$(find ctrl)/config/trajectory.yaml"/>
+    <param name="enable_control" value="$(arg enable_control)"/>
+    <param name="mission" value="$(arg mission)" type="str"/>
+    <param name="square_side" value="$(arg square_side)" type="double"/>
+  </node>
+</launch>

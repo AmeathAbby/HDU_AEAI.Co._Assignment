@@ -1,0 +1,36 @@
+<launch>
+  <arg name="px4_root" default="$(eval optenv('PX4_SITL_ROOT', find('drone_vision') + '/../../vendor/PX4-Autopilot'))"/>
+  <arg name="gui" default="false"/>
+  <arg name="start_px4" default="true"/>
+  <arg name="start_mavros" default="true"/>
+  <env name="PYTHONUNBUFFERED" value="1"/>
+  <arg name="spawn_x" default="1.01"/>
+  <arg name="spawn_y" default="0.98"/>
+  <arg name="color_config" default="$(find drone_vision)/config/red.yaml"/>
+  <arg name="result_topic" default="/vision/red_detected"/>
+  <arg name="world" default="$(find drone_vision)/worlds/color_test.world"/>
+  <env name="GAZEBO_MODEL_PATH" value="$(find drone_vision)/models:$(arg px4_root)/Tools/simulation/gazebo-classic/sitl_gazebo-classic/models:$(optenv GAZEBO_MODEL_PATH)"/>
+  <env name="GAZEBO_PLUGIN_PATH" value="$(arg px4_root)/build/px4_sitl_default/build_gazebo-classic:$(optenv GAZEBO_PLUGIN_PATH)"/>
+  <env name="LD_LIBRARY_PATH" value="$(arg px4_root)/build/px4_sitl_default/build_gazebo-classic:$(optenv LD_LIBRARY_PATH)"/>
+  <env name="PX4_SITL_ROOT" value="$(arg px4_root)"/>
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(arg world)"/><arg name="gui" value="$(arg gui)"/>
+    <arg name="paused" value="false"/><arg name="use_sim_time" value="true"/>
+  </include>
+  <node pkg="gazebo_ros" type="spawn_model" name="spawn_iris_rgbd" output="screen"
+        args="-sdf -file $(find drone_vision)/models/iris_rgbd/iris_rgbd.sdf -model iris -x $(arg spawn_x) -y $(arg spawn_y) -z 0.3"/>
+  <node if="$(arg start_px4)" pkg="drone_vision" type="start_px4.sh" name="px4_sitl" output="screen" required="true"/>
+  <include if="$(arg start_mavros)" file="$(find mavros)/launch/px4.launch">
+    <arg name="fcu_url" value="udp://:14540@127.0.0.1:14580"/>
+    <arg name="gcs_url" value=""/>
+  </include>
+  <node pkg="tf2_ros" type="static_transform_publisher" name="camera_optical_tf"
+        args="0 0 0 -1.57079632679 0 -1.57079632679 camera_link camera_optical_frame"/>
+  <node pkg="drone_vision" type="camera_stream_guard.py" name="camera_stream_guard" output="screen" required="true">
+    <remap from="~points" to="/camera/depth/points"/>
+  </node>
+  <include file="$(find drone_vision)/launch/color_detection.launch">
+    <arg name="config" value="$(arg color_config)"/>
+    <arg name="result_topic" value="$(arg result_topic)"/>
+  </include>
+</launch>

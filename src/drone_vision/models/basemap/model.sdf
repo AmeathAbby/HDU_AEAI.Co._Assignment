@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<sdf version="1.6"><model name="basemap"><static>true</static><link name="map">
+<collision name="map_collision"><geometry><mesh><uri>model://basemap/meshes/BaseMap.dae</uri></mesh></geometry></collision>
+<visual name="map_visual"><geometry><mesh><uri>model://basemap/meshes/BaseMap.dae</uri></mesh></geometry></visual>
+</link></model></sdf>

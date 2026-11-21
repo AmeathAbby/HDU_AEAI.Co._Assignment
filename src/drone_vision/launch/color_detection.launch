@@ -1,0 +1,12 @@
+<launch>
+  <arg name="image_topic" default="/camera/rgb/image_raw"/>
+  <arg name="result_topic" default="/vision/red_detected"/>
+  <arg name="config" default="$(find drone_vision)/config/red.yaml"/>
+  <node pkg="drone_vision" type="color_detector.py" name="color_detector" output="screen" required="true">
+    <rosparam command="load" file="$(arg config)"/>
+    <remap from="~image" to="$(arg image_topic)"/>
+    <remap from="~detected" to="$(arg result_topic)"/>
+    <remap from="~target_x" to="/vision/target_x"/>
+    <remap from="~debug_image" to="/vision/debug_image"/>
+  </node>
+</launch>

@@ -1,0 +1,12 @@
+# BaseMap pink diffuse RGB=(1.0,0.6654,0.9216), nominal OpenCV HSV~(157,85,255).
+# Allow lighting changes while excluding white/grey, green and the grey walls.
+color_name: 浅粉色
+hsv_ranges:
+  - lower: [145, 35, 70]
+    upper: [172, 255, 255]
+min_area: 120
+min_area_ratio: 0.0004
+kernel_size: 3
+image_timeout: 2.0
+log_period: 1.0
+publish_debug_image: true

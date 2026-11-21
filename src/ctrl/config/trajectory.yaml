@@ -1,0 +1,25 @@
+trajectory:
+  frame: ENU
+  frequency: 20.0
+  tolerance: 0.12
+  yaw_tolerance: 0.20  # radians
+  waypoint_timeout: 60.0  # includes continuous hold time
+  min_altitude: 0.5  # waypoint minimum; ground/takeoff may be below this
+  max_altitude: 2.8
+  ground_min_altitude: -0.3
+  min_x: -0.4
+  max_x: 2.8
+  min_y: -0.4
+  max_y: 2.8
+  state_timeout: 3.0  # State heartbeat is ~1 Hz; allow timing jitter
+  telemetry_timeout: 1.0  # Position freshness remains strict
+  connection_timeout: 90.0
+  activation_timeout: 20.0
+  service_timeout: 2.0
+  prestream_count: 100
+  # ENU relative to spawn (world x=0.65,y=0.85), not Gazebo absolute coordinates.
+  waypoints:
+    - {name: TAKEOFF_HOVER, x: 0.0, y: 0.0, z: 2.0, yaw: 0.0, hold: 5.0}
+    - {name: P1, x: 0.0, y: 0.5, z: 2.0, yaw: 0.666, hold: 2.0}
+    - {name: P2, x: 0.7, y: 0.0, z: 2.0, yaw: 1.5708, hold: 2.0}
+    - {name: P3, x: 1.4, y: 0.5, z: 2.0, yaw: 2.476, hold: 2.0}

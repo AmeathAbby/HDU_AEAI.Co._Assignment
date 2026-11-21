@@ -1,0 +1,72 @@
+Panels:
+- Class: rviz/Displays
+  Name: Displays
+- Class: rviz/Views
+  Name: Views
+Visualization Manager:
+  Class: ''
+  Enabled: true
+  Global Options:
+    Background Color: 38; 42; 48
+    Fixed Frame: map
+    Frame Rate: 30
+  Displays:
+  - Class: rviz/Grid
+    Name: Grid
+    Enabled: true
+    Cell Size: 1
+    Plane Cell Count: 20
+    Color: 120; 125; 135
+    Alpha: 0.5
+    Reference Frame: <Fixed Frame>
+  - Class: rviz/Pose
+    Name: Current position
+    Enabled: true
+    Topic: /mavros/local_position/pose
+    Shape: Axes
+    Axes Length: 0.6
+    Axes Radius: 0.05
+  - Class: rviz/Pose
+    Name: Target position
+    Enabled: true
+    Topic: /mavros/setpoint_position/local
+    Shape: Arrow
+    Color: 50; 180; 255
+    Alpha: 0.9
+    Shaft Length: 0.6
+    Shaft Radius: 0.035
+    Head Length: 0.2
+    Head Radius: 0.08
+  - Class: rviz/Path
+    Name: Actual flight trail
+    Enabled: true
+    Topic: /ctrl/flight_path
+    Buffer Length: 1
+    Color: 255; 160; 30
+    Alpha: 1
+    Line Style: Lines
+    Line Width: 0.03
+  - Class: rviz/MarkerArray
+    Name: Aircraft (quadcopter)
+    Enabled: true
+    Marker Topic: /ctrl/aircraft_markers
+    Queue Size: 100
+  Tools:
+  - Class: rviz/Interact
+  - Class: rviz/MoveCamera
+  - Class: rviz/Select
+  Views:
+    Current:
+      Class: rviz/Orbit
+      Name: Current View
+      Target Frame: ctrl_aircraft
+      Distance: 5
+      Pitch: 0.6
+      Yaw: 0.8
+      Focal Point:
+        X: 0
+        Y: 0
+        Z: 0
+Window Geometry:
+  Width: 1200
+  Height: 800

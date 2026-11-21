@@ -1,0 +1,7 @@
+<launch>
+  <arg name="max_path_points" default="0"/>
+  <node pkg="ctrl" type="flight_visualizer.py" name="flight_visualizer" output="screen" respawn="false">
+    <param name="max_path_points" value="$(arg max_path_points)"/>
+  </node>
+  <node pkg="rviz" type="rviz" name="rviz" args="-d $(find ctrl)/config/trajectory.rviz" output="screen" required="true"/>
+</launch>

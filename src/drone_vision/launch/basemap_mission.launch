@@ -1,0 +1,21 @@
+<launch>
+  <arg name="gui" default="true"/>
+  <arg name="enable_control" default="false"/>
+  <arg name="mission" default="basic"/>
+  <arg name="square_side" default="1.40"/>
+  <arg name="px4_root" default="$(eval optenv('PX4_SITL_ROOT', find('drone_vision') + '/../../vendor/PX4-Autopilot'))"/>
+  <arg name="world" default="$(find drone_vision)/worlds/basemap.world"/>
+  <include file="$(find drone_vision)/launch/sitl_rgbd.launch">
+    <arg name="gui" value="$(arg gui)"/>
+    <arg name="px4_root" value="$(arg px4_root)"/>
+    <arg name="world" value="$(arg world)"/>
+    <arg name="spawn_x" value="0.65"/><arg name="spawn_y" value="0.85"/>
+    <arg name="color_config" value="$(find drone_vision)/config/pink.yaml"/>
+    <arg name="result_topic" value="/vision/pink_detected"/>
+  </include>
+  <include if="$(arg enable_control)" file="$(find ctrl)/launch/trajectory.launch">
+    <arg name="enable_control" value="true"/>
+    <arg name="mission" value="$(arg mission)"/>
+    <arg name="square_side" value="$(arg square_side)"/>
+  </include>
+</launch>
